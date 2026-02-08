@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Be My Valentine? ❤️</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             display: flex;
@@ -34,16 +30,8 @@
             max-width: 400px;
         }
 
-        h1 {
-            color: #ff4d6d;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            color: #555;
-            margin-bottom: 2rem;
-        }
+        h1 { color: #ff4d6d; font-size: 2rem; margin-bottom: 1rem; }
+        p { color: #555; margin-bottom: 2rem; }
 
         .buttons {
             display: flex;
@@ -63,21 +51,11 @@
             border-radius: 12px;
             cursor: pointer;
             transition: transform 0.1s ease;
-            touch-action: manipulation; /* Prevents double-tap zoom on Safari */
+            touch-action: manipulation;
         }
 
-        #yesBtn {
-            background-color: #ff4d6d;
-            color: white;
-            z-index: 20;
-        }
-
-        #noBtn {
-            background-color: #adb5bd;
-            color: white;
-            position: relative; /* Keeps it in line until triggered */
-            z-index: 15;
-        }
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 20; }
+        #noBtn { background-color: #adb5bd; color: white; position: relative; z-index: 15; }
 
         .heart {
             position: absolute;
@@ -88,12 +66,14 @@
             animation: fall linear forwards;
         }
 
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
+        @keyframes fall { to { transform: translateY(110vh); } }
     </style>
 </head>
 <body>
+
+    <audio id="valentineMusic" loop>
+        <source src="Pehla Nasha.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="container" id="mainContainer">
         <h1>Will you be my Valentine? ❤️</h1>
@@ -107,30 +87,27 @@
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            
-            // On the first interaction, we switch to fixed positioning
             btn.style.position = 'fixed';
-
-            // Ensure the button stays within the visible screen area
             const padding = 20;
             const maxWidth = window.innerWidth - btn.offsetWidth - padding;
             const maxHeight = window.innerHeight - btn.offsetHeight - padding;
-
             const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
             const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
-
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
         }
 
         function celebrate() {
+            // Play Music
+            const music = document.getElementById('valentineMusic');
+            music.play().catch(e => console.log("Audio play failed: ", e));
+
             const container = document.getElementById('mainContainer');
             container.innerHTML = `
                 <h1 style="font-size: 2.5rem;">Yay! See you on the 14th! 🌹</h1>
                 <p>I already started planning. ❤️</p>
             `;
             
-            // Remove the floating "No" button if it's still somewhere else
             const noBtn = document.getElementById('noBtn');
             if (noBtn) noBtn.remove();
 
@@ -144,10 +121,7 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = Math.random() * 20 + 15 + 'px';
             heart.style.animationDuration = Math.random() * 2 + 2 + 's';
-            heart.style.opacity = Math.random();
             document.body.appendChild(heart);
-
-            // Cleanup hearts so the phone doesn't lag
             setTimeout(() => { heart.remove(); }, 5000);
         }
     </script>
